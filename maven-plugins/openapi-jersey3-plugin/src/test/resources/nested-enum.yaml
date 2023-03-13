@@ -1,0 +1,28 @@
+openapi: 3.0.1
+info:
+  title: test api
+  description: Test case for nested enum
+  version: "1.1.1"
+paths:
+  /nested-enum:
+    get:
+      tags:
+        - TestService
+      summary: Test a nested enum
+      operationId: testEnum
+      responses:
+        200:
+          $ref: '#/components/responses/NestedEnumResponse'
+
+components:
+  schemas:
+    NestedEnumResponse:
+      type: object
+      properties:
+        enumProperty:
+          type: string
+          description: A nested enum
+          example: typeOne
+          enum:
+            - typeOne
+            - typeTwo

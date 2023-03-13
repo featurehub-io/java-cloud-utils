@@ -1,0 +1,27 @@
+openapi: 3.0.1
+info:
+  title: test api
+  description: Sample API for test case for multi-part form
+  version: "1.1.1"
+paths:
+  /file-upload:
+    post:
+      tags:
+        - FileService
+      summary: Upload a file
+      operationId: uploadFile
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                file:
+                  type: string
+                  format: binary
+                effectiveDate:
+                  type: string
+                submittedBy:
+                  type: string
+      responses:
+        200:
+          description: File uploaded

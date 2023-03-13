@@ -122,7 +122,7 @@ import javax.ws.rs.*;
     {{#isDeprecated}}
       @Deprecated
     {{/isDeprecated}}
-    public ApiResponse<{{#vendorExtensions.x-java-is-response-void}}Void{{/vendorExtensions.x-java-is-response-void}}{{^vendorExtensions.x-java-is-response-void}}{{{returnType}}}{{/vendorExtensions.x-java-is-response-void}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+    public ApiResponse<{{#vendorExtensions.x-java-is-response-void}}Void{{/vendorExtensions.x-java-is-response-void}}{{^vendorExtensions.x-java-is-response-void}}{{{returnType}}}{{/vendorExtensions.x-java-is-response-void}}> {{operationId}}WithHttpInfo({{#allParams}}{{>queryParams}}{{>pathParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{^-last}}, {{/-last}}{{/allParams}});
   {{/operation}}
     }
 {{/operations}}

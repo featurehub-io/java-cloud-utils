@@ -3,22 +3,46 @@ package cd.connect.openapi;
 import org.junit.Test;
 import org.openapitools.codegen.OpenAPIGenerator;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 
 public class SampleRunner {
+
   @Test
   public void runGenerator() {
     String location = getClass().getResource("/sample2.yaml").getFile();
-    OpenAPIGenerator.main(Arrays.asList("generate",
-      "--input-spec", location,
-      "--generator-name", "jersey3-api",
-      "--additional-properties", "server-security",
-		  "--additional-properties", "server-delegate",
-      "--additional-properties", "x-no-copy",
+    OpenAPIGenerator.main(getArgs(location, false));
+
+    location = getClass().getResource("/upload.yaml").getFile();
+    OpenAPIGenerator.main(getArgs(location, true));
+
+    location = getClass().getResource("/nested-enum.yaml").getFile();
+    OpenAPIGenerator.main(getArgs(location, false));
+  }
+
+  private String[] getArgs(String location, boolean clientAndServer) {
+
+    List<String> args = Arrays.asList("generate",
+        "--input-spec", location,
+        "--generator-name", "jersey3-api",
+        "--additional-properties", "server-security",
+        "--additional-properties", "server-delegate",
+        "--additional-properties", "x-no-copy",
 //      "--api-package", "api",
 //      "--model-package", "model",
-      "--output", "target/" + getClass().getSimpleName())
-      .toArray(new String[0]));
+        "--output", "target/" + getClass().getSimpleName());
+
+    if (clientAndServer) {
+      args = new ArrayList<>(args);
+      args.addAll(
+          Arrays.asList(
+              "--additional-properties", "client=true",
+              "--additional-properties", "server=true")
+      );
+    }
+    return args.toArray(new String[0]);
   }
 //  @Test
 //  public void runFHGenerator() {

@@ -14,6 +14,9 @@ The current authors of this repository are:
 	<version>8.5-SNAPSHOT</version>
 
 == changes
+* 8.7 - fixes two issues:
+** Make handling of multi-part file uploads more consistent between service, client and impl layers
+** Fix nested enum semicolon placement issue
 * 8.6 - update to the equals so that it uses a deepEquals for arrays
 * 8.5 - extended the common support library, you must use `cd.connect.openapi.gensupport:openapi-jersey3-support:2.5` or later with this release as it includes new annotations.
 * 8.4 - support for CloudEvents annotations `x-cloudevent-type` and `x-cloudevent-subject` generates static strings

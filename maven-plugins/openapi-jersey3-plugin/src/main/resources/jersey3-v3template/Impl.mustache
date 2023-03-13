@@ -22,6 +22,12 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 {{/jersey2}}
 
+import java.io.InputStream;
+{{^noFormData}}
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
+{{/noFormData}}
+
 {{#imports}}import {{import}};
 {{/imports}}
 
@@ -73,11 +79,11 @@ public class {{classname}}ServiceImpl implements {{classname}}, {{classname}}Cli
   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}Response {{/returnType}}{{operationId}}({{#allParams}}{{>serviceQueryParams}}{{>pathParams}}{{>serviceBodyParams}}{{>serviceFormParams}}{{>serviceHeaderParams}}{{^-last}}, {{/-last}}{{/allParams}}) {
   {{#returnType}}
     {{^vendorExtensions.x-java-is-response-void}}return {{/vendorExtensions.x-java-is-response-void}}
-     {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}})
+     {{operationId}}WithHttpInfo({{#allParams}}{{^isFile}}{{paramName}}{{/isFile}}{{#isFile}}inputStream, fileDetail{{/isFile}}{{^-last}}, {{/-last}}{{/allParams}})
     {{^vendorExtensions.x-java-is-response-void}}.getData(){{/vendorExtensions.x-java-is-response-void}}
     ;
   {{/returnType}}{{^returnType}}
-    {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+    {{operationId}}WithHttpInfo({{#allParams}}{{^isFile}}{{paramName}}{{/isFile}}{{#isFile}}inputStream, fileDetail{{/isFile}}{{^-last}}, {{/-last}}{{/allParams}});
   {{/returnType}}
   }
 
@@ -104,11 +110,11 @@ public class {{classname}}ServiceImpl implements {{classname}}, {{classname}}Cli
   public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}Response {{/returnType}}{{operationId}}({{#allParams}}{{>serviceQueryParams}}{{>pathParams}}{{>serviceBodyParams}}{{>serviceFormParams}}{{>serviceHeaderParams}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Map<String, String> extraHeaders) {
   {{#returnType}}
     {{^vendorExtensions.x-java-is-response-void}}return {{/vendorExtensions.x-java-is-response-void}}
-    {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}extraHeaders)
+    {{operationId}}WithHttpInfo({{#allParams}}{{^isFile}}{{paramName}}{{/isFile}}{{#isFile}}inputStream, fileDetail{{/isFile}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}extraHeaders)
     {{^vendorExtensions.x-java-is-response-void}}.getData(){{/vendorExtensions.x-java-is-response-void}}
     ;
   {{/returnType}}{{^returnType}}
-    {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}extraHeaders);
+    {{operationId}}WithHttpInfo({{#allParams}}{{^isFile}}{{paramName}}{{/isFile}}{{#isFile}}inputStream, fileDetail{{/isFile}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}extraHeaders);
   {{/returnType}}
   }
 
@@ -132,11 +138,11 @@ public class {{classname}}ServiceImpl implements {{classname}}, {{classname}}Cli
   {{#isDeprecated}}
     @Deprecated
   {{/isDeprecated}}
-  public ApiResponse<{{#vendorExtensions.x-java-is-response-void}}Void{{/vendorExtensions.x-java-is-response-void}}{{^vendorExtensions.x-java-is-response-void}}{{{returnType}}}{{/vendorExtensions.x-java-is-response-void}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
+  public ApiResponse<{{#vendorExtensions.x-java-is-response-void}}Void{{/vendorExtensions.x-java-is-response-void}}{{^vendorExtensions.x-java-is-response-void}}{{{returnType}}}{{/vendorExtensions.x-java-is-response-void}}> {{operationId}}WithHttpInfo({{#allParams}}{{>serviceQueryParams}}{{>pathParams}}{{>serviceBodyParams}}{{>serviceFormParams}}{{>serviceHeaderParams}}{{^-last}}, {{/-last}}{{/allParams}}) {
   {{#returnType}}
-      return {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}null);
+      return {{operationId}}WithHttpInfo({{#allParams}}{{^isFile}}{{paramName}}{{/isFile}}{{#isFile}}inputStream, fileDetail{{/isFile}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}null);
   {{/returnType}}{{^returnType}}
-    {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}null);
+    {{operationId}}WithHttpInfo({{#allParams}}{{^isFile}}{{paramName}}{{/isFile}}{{#isFile}}inputStream, fileDetail{{/isFile}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}null);
   {{/returnType}}
 
   }
@@ -161,7 +167,7 @@ public class {{classname}}ServiceImpl implements {{classname}}, {{classname}}Cli
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public ApiResponse<{{#vendorExtensions.x-java-is-response-void}}Void{{/vendorExtensions.x-java-is-response-void}}{{^vendorExtensions.x-java-is-response-void}}{{{returnType}}}{{/vendorExtensions.x-java-is-response-void}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Map<String, String> extraHeaders) {
+  public ApiResponse<{{#vendorExtensions.x-java-is-response-void}}Void{{/vendorExtensions.x-java-is-response-void}}{{^vendorExtensions.x-java-is-response-void}}{{{returnType}}}{{/vendorExtensions.x-java-is-response-void}}> {{operationId}}WithHttpInfo({{#allParams}}{{>serviceQueryParams}}{{>pathParams}}{{>serviceBodyParams}}{{>serviceFormParams}}{{>serviceHeaderParams}}{{^-last}}, {{/-last}}{{/allParams}}{{#hasParams}}, {{/hasParams}}Map<String, String> extraHeaders) {
     Object {{localVariablePrefix}}localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}new Object(){{/bodyParam}};
     {{#allParams}}{{#required}}
     // verify the required parameter '{{paramName}}' is set
@@ -190,8 +196,8 @@ public class {{classname}}ServiceImpl implements {{classname}}, {{classname}}Cli
       {{localVariablePrefix}}localVarHeaderParams.put("{{baseName}}", {{localVariablePrefix}}apiClient.parameterToString({{paramName}}));
     {{/headerParams}}
 
-    {{#formParams}}if ({{paramName}} != null)
-      {{localVariablePrefix}}localVarFormParams.put("{{baseName}}", {{paramName}});
+    {{#formParams}}if ({{^isFile}}{{paramName}}{{/isFile}}{{#isFile}}inputStream != null && fileDetail {{/isFile}} != null) {
+      {{localVariablePrefix}}localVarFormParams.put({{^isFile}}"{{baseName}}", {{paramName}}{{/isFile}}{{#isFile}}"inputStream", inputStream);{{localVariablePrefix}}localVarFormParams.put("fileDetail", fileDetail{{/isFile}});}
     {{/formParams}}
 
     final String[] {{localVariablePrefix}}localVarAccepts = {

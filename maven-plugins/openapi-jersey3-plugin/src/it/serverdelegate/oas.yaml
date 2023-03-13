@@ -228,6 +228,17 @@ paths:
 #            application/json:
 #              schema:
 #                $ref: "#/components/schemas/com.bluetrainsoftware.AddProps2"
+
+  /nested-enum:
+    get:
+      tags:
+        - TestService
+      summary: Test a nested enum
+      operationId: testEnum
+      responses:
+        200:
+          $ref: '#/components/responses/NestedEnumResponse'
+
 components:
   securitySchemes:
     bearerAuth:            # arbitrary name for the security scheme
@@ -610,3 +621,14 @@ components:
 #          properties:
 #            seatType:
 #              type: string
+
+    NestedEnumResponse:
+      type: object
+      properties:
+        enumProperty:
+          type: string
+          description: A nested enum
+          example: typeOne
+          enum:
+            - typeOne
+            - typeTwo

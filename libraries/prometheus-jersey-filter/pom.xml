@@ -4,7 +4,7 @@
 
 	<groupId>cd.connect.common</groupId>
 	<artifactId>connect-prometheus-jersey</artifactId>
-	<version>4.2</version>
+	<version>4.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Prometheus Jersey Annotation Support</name>
 
@@ -34,7 +34,7 @@
 		<connection>scm:git:git@github.com:clearpointnz/connect-prometheus-jersey.git</connection>
 		<developerConnection>scm:git:git@github.com:clearpointnz/connect-prometheus-jersey.git</developerConnection>
 		<url>git@github.com:clearpointnz/connect-prometheus-jersey.git</url>
-		<tag>connect-prometheus-jersey-4.2</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<properties>

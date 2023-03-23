@@ -33,6 +33,8 @@ public class PrometheusFilter implements ContainerRequestFilter, ContainerRespon
   protected String prefix;
   private final Prometheus annotation;
   private CombinationDumpling tracker;
+	// don't track the timer, only the result
+	private final boolean noTimer;
   private static final Map<String, CombinationDumpling> metrics = new ConcurrentHashMap<>();
 
 
@@ -75,12 +77,15 @@ public class PrometheusFilter implements ContainerRequestFilter, ContainerRespon
    * @param prefix - the prefix we should apply to all metrics (if any)
    * @param annotation - one if it exists
    */
-	public PrometheusFilter(ResourceInfo resourceInfo, String prefix, Prometheus annotation) {
+	public PrometheusFilter(ResourceInfo resourceInfo, String prefix, Prometheus annotation, boolean noTimer) {
     this.resourceInfo = resourceInfo;
     this.prefix = prefix;
     this.annotation = annotation;
+		this.noTimer = noTimer;
 
-    buildTimerFromAnnotation(annotation);
+		if (!noTimer && annotation != null) {
+			buildTimerFromAnnotation(annotation);
+		}
 	}
 
   /**
@@ -96,7 +101,7 @@ public class PrometheusFilter implements ContainerRequestFilter, ContainerRespon
 
   @Override
   public void filter(ContainerRequestContext requestContext) {
-	  if (tracker == null) { // we only need to do this once
+	  if (!noTimer && tracker == null) { // we only need to do this once
       buildTracker(requestContext);
     }
 

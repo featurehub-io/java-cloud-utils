@@ -11,10 +11,11 @@ import jakarta.ws.rs.ext.Provider;
 @Provider
 public class PrometheusDynamicFeature implements DynamicFeature {
   private final boolean profileAll;
+	private final boolean profileNone;
   private final String prefix;
 
   public PrometheusDynamicFeature() {
-    this(profileAll());
+    this(profileAll(), profileNone());
   }
 
 	private static String configured(String name) {
@@ -35,19 +36,26 @@ public class PrometheusDynamicFeature implements DynamicFeature {
 	  return val == null || Boolean.parseBoolean(val);
   }
 
-  public PrometheusDynamicFeature(boolean profileAll) {
+	private static boolean profileNone() {
+		String val = configured("prometheus.jersey.none");
+
+		return val == null || Boolean.parseBoolean(val);
+	}
+
+  public PrometheusDynamicFeature(boolean profileAll, boolean profileNone) {
     this.prefix = configured("prometheus.jersey.prefix");
 
     GlobalJerseyMetrics.init(prefix);
 
     this.profileAll = profileAll;
+		this.profileNone = profileNone;
   }
 
   @Override
   public void configure(ResourceInfo resourceInfo, FeatureContext context) {
     Prometheus annotation = resourceInfo.getResourceMethod().getAnnotation(Prometheus.class);
     if (annotation != null || profileAll) {
-      context.register(new PrometheusFilter(resourceInfo, prefix, annotation));
+      context.register(new PrometheusFilter(resourceInfo, prefix, annotation, profileNone));
     }
   }
 }

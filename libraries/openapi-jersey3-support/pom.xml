@@ -11,13 +11,13 @@
     support classes for openapi v3 generator
   </description>
 
-  <url>https://clearpointnz.github.io/connect/</url>
+  <url>https://www.featurehub.io</url>
   <developers>
     <developer>
-      <email>richard@bluetrainsoftware.com</email>
+      <email>info@featurehub.io</email>
       <id>rvowles</id>
       <name>Richard Vowles</name>
-      <organization>on behalf of ClearPoint NZ Ltd</organization>
+      <organization>FeatureHub</organization>
     </developer>
   </developers>
 
@@ -29,9 +29,9 @@
   </licenses>
 
   <scm>
-    <connection>scm:git:git@github.com:clearpointnz/connect-openapi-jersey2.git</connection>
-    <developerConnection>scm:git:git@github.com:clearpointnz/connect-openapi-jersey2.git</developerConnection>
-    <url>git@github.com:clearpointnz/connect-java-servlet-spring-jersey.git</url>
+    <connection>scm:git:git@github.com:featurehub-io/java-cloud-utils/connect-openapi-jersey2.git</connection>
+    <developerConnection>scm:git:git@github.com:featurehub-io/java-cloud-utils/connect-openapi-jersey2.git</developerConnection>
+    <url>git@github.com:featurehub-io/connect-java-servlet-spring-jersey.git</url>
     <tag>HEAD</tag>
   </scm>
 

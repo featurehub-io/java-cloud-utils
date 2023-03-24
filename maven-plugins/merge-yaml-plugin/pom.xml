@@ -8,10 +8,10 @@
 	<packaging>maven-plugin</packaging>
 	<name>merge-yaml-plugin</name>
 
-	<url>https://clearpointnz.github.io/connect/</url>
+	<url>https://www.featurehub.io</url>
 	<developers>
 		<developer>
-			<email>richard@bluetrainsoftware.com</email>
+			<email>info@featurehub.io</email>
 			<id>rvowles</id>
 			<name>Richard Vowles</name>
 			<organization>on behalf of Connect</organization>
@@ -30,9 +30,9 @@
 	</description>
 
 	<scm>
-		<connection>scm:git:git@github.com:clearpointnz/connect-java.git</connection>
-		<developerConnection>scm:git:git@github.com:clearpointnz/connect-java.git</developerConnection>
-		<url>git@github.com:clearpointnz/connect-java.git</url>
+		<connection>scm:git:git@github.com:featurehub-io/java-cloud-utils/connect-java.git</connection>
+		<developerConnection>scm:git:git@github.com:featurehub-io/java-cloud-utils/connect-java.git</developerConnection>
+		<url>git@github.com:featurehub-io/connect-java.git</url>
 		<tag>HEAD</tag>
 	</scm>
 

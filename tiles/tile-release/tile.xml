@@ -12,13 +12,13 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <url>https://clearpointnz.github.io/connect/</url>
+  <url>https://www.featurehub.io</url>
   <developers>
     <developer>
-      <email>richard@bluetrainsoftware.com</email>
+      <email>info@featurehub.io</email>
       <id>rvowles</id>
       <name>Richard Vowles</name>
-      <organization>on behalf of ClearPoint NZ Ltd</organization>
+      <organization>FeatureHub</organization>
     </developer>
   </developers>
 
@@ -30,9 +30,9 @@
   </licenses>
 
   <scm>
-    <connection>scm:git:git@github.com:clearpointnz/tile-release.git</connection>
-    <developerConnection>scm:git:git@github.com:clearpointnz/tile-release.git</developerConnection>
-    <url>git@github.com:clearpointnz/tile-release.git</url>
+    <connection>scm:git:git@github.com:featurehub-io/java-cloud-utils/tile-release.git</connection>
+    <developerConnection>scm:git:git@github.com:featurehub-io/java-cloud-utils/tile-release.git</developerConnection>
+    <url>git@github.com:featurehub-io/tile-release.git</url>
     <tag>HEAD</tag>
   </scm>
 

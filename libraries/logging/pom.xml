@@ -12,13 +12,13 @@
 		we recommend async logger with log4j2.
 	</description>
 
-	<url>https://clearpointnz.github.io/connect/</url>
+	<url>https://www.featurehub.io</url>
 	<developers>
 		<developer>
-			<email>richard@bluetrainsoftware.com</email>
+			<email>info@featurehub.io</email>
 			<id>rvowles</id>
 			<name>Richard Vowles</name>
-			<organization>on behalf of ClearPoint NZ Ltd</organization>
+			<organization>FeatureHub</organization>
 		</developer>
 	</developers>
 
@@ -30,9 +30,9 @@
 	</licenses>
 
 	<scm>
-		<connection>scm:git:git@github.com:clearpointnz/connect-java-logging.git</connection>
-		<developerConnection>scm:git:git@github.com:clearpointnz/connect-java-logging.git</developerConnection>
-		<url>git@github.com:clearpointnz/connect-java-logging.git</url>
+		<connection>scm:git:git@github.com:featurehub-io/java-cloud-utils/connect-java-logging.git</connection>
+		<developerConnection>scm:git:git@github.com:featurehub-io/java-cloud-utils/connect-java-logging.git</developerConnection>
+		<url>git@github.com:featurehub-io/connect-java-logging.git</url>
 		<tag>HEAD</tag>
 	</scm>
 

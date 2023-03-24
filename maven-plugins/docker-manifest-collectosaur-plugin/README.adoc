@@ -1,4 +1,0 @@
-= The Collectosaur
-
-This set of Maven tasks is designed to aid primarily Maven driven monorepo based microservice pipeline development.
-It expects that

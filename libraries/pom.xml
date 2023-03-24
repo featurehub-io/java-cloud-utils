@@ -26,37 +26,13 @@
 			jackson
 		</module>
 		<module>
-			jetty-redis-session-manager
-		</module>
-		<module>
 			log4j
 		</module>
 		<module>
 			logging
 		</module>
 		<module>
-			opentracing-logging-wrapper
-		</module>
-		<module>
-			opentracing-servlet
-		</module>
-		<module>
 			prometheus-jersey-filter
-		</module>
-		<module>
-			runnable-jetty
-		</module>
-		<module>
-			servlet-spring
-		</module>
-		<module>
-			servlet-spring-jersey
-		</module>
-		<module>
-			spring-jersey-client
-		</module>
-		<module>
-			vault-initializer
 		</module>
 	</modules>
 </project>

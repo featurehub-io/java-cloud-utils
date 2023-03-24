@@ -42,7 +42,7 @@
 	</scm>
 
   <properties>
-    <prometheus.version>0.11.0</prometheus.version>
+    <prometheus.version>0.16.0</prometheus.version>
   </properties>
 
   <dependencies>

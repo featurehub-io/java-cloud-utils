@@ -11,23 +11,15 @@
 
   <modules>
     <module>connect-composite-parent</module>
-    <module>connect-composite-servlet</module>
     <module>connect-composite-groovy</module>
     <module>connect-composite-jaxrs</module>
     <module>connect-composite-jersey-client</module>
     <module>connect-composite-jersey</module>
-    <module>connect-composite-jersey-spring</module>
     <module>connect-composite-jackson</module>
-    <module>connect-composite-kubernetes</module>
     <module>connect-composite-log4j2</module>
     <module>connect-composite-logging</module>
-    <module>connect-composite-openssl</module>
     <module>connect-composite-prometheus</module>
-    <module>connect-composite-spring</module>
-    <module>connect-composite-springweb</module>
     <module>connect-composite-test</module>
-    <module>connect-composite-tracing</module>
-    <module>connect-composite-restapp</module>
 	  <module>connect-composite-jersey-grizzly</module>
   </modules>
 

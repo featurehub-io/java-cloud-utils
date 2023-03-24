@@ -10,27 +10,9 @@
 	<name>connect-reactor</name>
 
   <modules>
-    <module>composites/connect-composite-groovy</module>
-    <module>composites/connect-composite-jaxrs</module>
-    <module>composites/connect-composite-jersey-client</module>
-    <module>composites/connect-composite-jersey</module>
-    <module>composites/connect-composite-jackson</module>
-    <module>composites/connect-composite-prometheus</module>
-    <module>composites/connect-composite-test</module>
-	  <module>composites/connect-composite-jersey-grizzly</module>
-<!--	  <module>libraries/jersey-common</module>-->
-	  <module>libraries/app-lifecycle</module>
-	  <module>libraries/app-declare-config</module>
-	  <module>libraries/openapi-jersey3-support</module>
-	  <module>libraries/jersey-grizzly</module>
-	  <module>libraries/env-logging</module>
-	  <module>libraries/env-property-headers</module>
-	  <module>libraries/jackson</module>
-	  <module>libraries/logging</module>
-	  <module>libraries/prometheus-jersey-filter</module>
-	  <module>libraries/log4j</module>
-	  <module>maven-plugins/openapi-jersey3-plugin</module>
-	  <module>maven-plugins/docker-manifest-collectosaur-plugin</module>
+	  <module>composites</module>
+	  <module>libraries</module>
+	  <module>maven-plugins</module>
   </modules>
 
   <build>

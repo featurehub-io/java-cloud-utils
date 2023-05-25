@@ -27,6 +27,9 @@ public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum
   {{#ebeanEnum}}
   @io.ebean.annotation.DbEnumValue
   {{/ebeanEnum}}
+  {{#vendorExtensions.x-ebean-enum}}
+  @io.ebean.annotation.DbEnumValue
+  {{/vendorExtensions.x-ebean-enum}}
   public {{{dataType}}} getValue() {
     return value;
   }

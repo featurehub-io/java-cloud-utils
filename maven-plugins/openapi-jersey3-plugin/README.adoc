@@ -1,0 +1,5 @@
+= openapi-jersey3-plugin
+
+Does Jersey2 + Jersey3
+
+- 8.8 - support ebean annotation on individual enum type with `x-ebean-enum`

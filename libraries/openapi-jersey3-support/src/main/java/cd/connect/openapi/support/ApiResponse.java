@@ -34,7 +34,6 @@ public class ApiResponse<T> {
     this.data = data;
     this.response = response;
   }
-
   public int getStatusCode() {
     return statusCode;
   }
@@ -45,5 +44,9 @@ public class ApiResponse<T> {
 
   public T getData() {
     return data;
+  }
+
+  public Response getResponse() {
+    return response;
   }
 }

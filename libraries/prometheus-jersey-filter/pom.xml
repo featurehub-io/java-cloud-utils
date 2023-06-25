@@ -4,7 +4,7 @@
 
 	<groupId>cd.connect.common</groupId>
 	<artifactId>connect-prometheus-jersey</artifactId>
-	<version>4.3-SNAPSHOT</version>
+	<version>4.3</version>
 	<packaging>jar</packaging>
 	<name>Prometheus Jersey Annotation Support</name>
 
@@ -34,7 +34,7 @@
 		<connection>scm:git:git@github.com:featurehub-io/java-cloud-utils/connect-prometheus-jersey.git</connection>
 		<developerConnection>scm:git:git@github.com:featurehub-io/java-cloud-utils/connect-prometheus-jersey.git</developerConnection>
 		<url>git@github.com:featurehub-io/connect-prometheus-jersey.git</url>
-		<tag>HEAD</tag>
+		<tag>connect-prometheus-jersey-4.3</tag>
 	</scm>
 
 	<properties>

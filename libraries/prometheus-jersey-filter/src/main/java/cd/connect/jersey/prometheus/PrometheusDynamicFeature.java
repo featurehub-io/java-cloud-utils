@@ -37,9 +37,7 @@ public class PrometheusDynamicFeature implements DynamicFeature {
   }
 
 	private static boolean profileNone() {
-		String val = configured("prometheus.jersey.none");
-
-		return val == null || Boolean.parseBoolean(val);
+		return Boolean.parseBoolean(configured("prometheus.jersey.none"));
 	}
 
   public PrometheusDynamicFeature(boolean profileAll, boolean profileNone) {

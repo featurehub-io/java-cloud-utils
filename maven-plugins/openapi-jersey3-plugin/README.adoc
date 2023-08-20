@@ -2,4 +2,70 @@
 
 Does Jersey2 + Jersey3
 
-- 8.8 - support ebean annotation on individual enum type with `x-ebean-enum`
+== 8.8
+
+- support ebean annotation on individual enum type with `x-ebean-enum`
+
+== 8.9
+- upgrade to 6.6.0 of OpenAPI generator. The base code removed defaults on arrays, so
+we have to set them by default.
+- support for `x-longname` in a field. If a field is deliberately shortened to
+save bandwidth, then when generating classes, the field will use the longname while
+the json annotations will use the original name. For example:
+[source,yaml]
+----
+    EdgeFeatureEnvironments:
+      type: object
+      properties:
+        e:
+          description: "Environments"
+          x-longname: environments
+          type: array
+          items:
+            $ref: "#/components/schemas/EdgeEnvironment"
+----
+[source,java]
+----
+  @JsonProperty("e")
+  @org.jetbrains.annotations.Nullable
+  private List<EdgeEnvironment> environments = new ArrayList<>();
+----
+   - support for enum shortening. A similar process for above, for example:
+[source,yaml]
+----
+    EdgeFeatureValueType:
+      x-longname: type
+      type: string
+      x-enum-longname:
+        b: BOOLEAN
+        n: NUMBER
+        j: JSON
+        s: STRING
+      enum:
+        - b
+        - n
+        - j
+        - s
+----
+[source,java]
+----
+public enum EdgeFeatureValueType {
+  BOOLEAN("b"),
+  NUMBER("n"),
+  JSON("j"),
+  STRING("s");
+
+static {
+    fromValues.put("b", BOOLEAN);
+    fromValues.put("BOOLEAN", BOOLEAN);
+
+    fromValues.put("n", NUMBER);
+    fromValues.put("NUMBER", NUMBER);
+
+    fromValues.put("j", JSON);
+    fromValues.put("JSON", JSON);
+
+    fromValues.put("s", STRING);
+    fromValues.put("STRING", STRING);
+}
+----

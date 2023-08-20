@@ -339,6 +339,7 @@ components:
           type: string
         someUniqueSet:
           uniqueItems: true
+          nullable: true
           type: array
           items:
             type: number

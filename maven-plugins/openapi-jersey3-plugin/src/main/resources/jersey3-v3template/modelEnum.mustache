@@ -45,15 +45,28 @@ public enum {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum
 
   // can't use map.of
 	private static Map<String,{{{classname}}}> fromValues = new HashMap<>();
+  {{#vendorExtensions.x-enum-longname}}
+	public static Map<String,String> nameMappings = new HashMap<>();
+  {{/vendorExtensions.x-enum-longname}}
 
   static {
-    {{#allowableValues}}{{#enumVars}}fromValues.put({{{value}}}, {{{name}}});
-    fromValues.put("{{{name}}}", {{{name}}});{{/enumVars}}{{/allowableValues}}
+    {{#allowableValues}}{{#enumVars}}
+	  fromValues.put({{{value}}}, {{{name}}});
+    fromValues.put("{{{name}}}", {{{name}}});
+    {{/enumVars}}{{/allowableValues}}
+{{#vendorExtensions.x-enum-longname}}
+	{{#allowableValues}}{{#enumVars}}
+		nameMappings.put({{{value}}}, "{{{name}}}");
+	{{/enumVars}}{{/allowableValues}}
+{{/vendorExtensions.x-enum-longname}}
   }
 
   @JsonCreator
-  public static {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} fromValue(String text) {
+{{^vendorExtensions.x-must-be-valid}}@org.jetbrains.annotations.Nullable{{/vendorExtensions.x-must-be-valid}}
+{{#vendorExtensions.x-must-be-valid}}@org.jetbrains.annotations.NotNull{{/vendorExtensions.x-must-be-valid}}
+  public static {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} fromValue({{^vendorExtensions.x-must-be-valid}}@org.jetbrains.annotations.Nullable{{/vendorExtensions.x-must-be-valid}}{{#vendorExtensions.x-must-be-valid}}@org.jetbrains.annotations.NotNull{{/vendorExtensions.x-must-be-valid}} String text) {
     {{^vendorExtensions.x-must-be-valid}}
+	  if (text == null) return null;
 	  return fromValues.get(text);
     {{/vendorExtensions.x-must-be-valid}}{{#vendorExtensions.x-must-be-valid}}
 	{{{classname}}} val = fromValues.get(text);

@@ -55,13 +55,13 @@ import javax.ws.rs.core.SecurityContext;
       * @see <a href="{{url}}">{{summary}} Documentation</a>
     {{/externalDocs}}
     */
-    public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}Response {{/returnType}}{{operationId}}(
+    public @org.jetbrains.annotations.NotNull {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}Response {{/returnType}}{{operationId}}(
       {{#vendorExtensions.x-has-java-params}}
         {{{vendorExtensions.x-java-params-plus-types}}}
       {{/vendorExtensions.x-has-java-params}}
       {{#vendorExtensions.x-has-delegator-holder}}
         {{#vendorExtensions.x-has-java-params}},{{/vendorExtensions.x-has-java-params}}
-        {{{vendorExtensions.x-class-delegator-holder}}} holder
+		@org.jetbrains.annotations.NotNull {{{vendorExtensions.x-class-delegator-holder}}} holder
       {{/vendorExtensions.x-has-delegator-holder}}
     {{#authMethods}}{{#hasParams}}, {{/hasParams}}SecurityContext securityContext{{/authMethods}});
   {{/operation}}

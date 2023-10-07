@@ -30,94 +30,37 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
     {{/isEnum}}
   {{#jackson}}
   @JsonProperty("{{baseName}}")
-  {{#withXml}}
-    {{^isContainer}}
-  @JacksonXmlProperty({{#isXmlAttribute}}isAttribute = true, {{/isXmlAttribute}}{{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}localName = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-    {{/isContainer}}
-    {{#isContainer}}
-      {{#isXmlWrapped}}
-  // items.xmlName={{items.xmlName}}
-  @JacksonXmlElementWrapper(useWrapping = {{isXmlWrapped}}, {{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}localName = "{{#items.xmlName}}{{items.xmlName}}{{/items.xmlName}}{{^items.xmlName}}{{items.baseName}}{{/items.xmlName}}")
-      {{/isXmlWrapped}}
-    {{/isContainer}}
-  {{/withXml}}
   {{/jackson}}
-  {{#withXml}}
-  {{#isXmlAttribute}}
-  @XmlAttribute(name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-  {{/isXmlAttribute}}
-  {{^isXmlAttribute}}
-    {{^isContainer}}
-  @XmlElement({{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-    {{/isContainer}}
-    {{#isContainer}}
-  // Is a container wrapped={{isXmlWrapped}}
-      {{#items}}
-  // items.name={{name}} items.baseName={{baseName}} items.xmlName={{xmlName}} items.xmlNamespace={{xmlNamespace}}
-  // items.example={{example}} items.type={{dataType}}
-  @XmlElement({{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-      {{/items}}
-      {{#isXmlWrapped}}
-  @XmlElementWrapper({{#xmlNamespace}}namespace="{{xmlNamespace}}", {{/xmlNamespace}}name = "{{#xmlName}}{{xmlName}}{{/xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-      {{/isXmlWrapped}}
-    {{/isContainer}}
-  {{/isXmlAttribute}}
-  {{/withXml}}
-  {{#gson}}
-  public static final String SERIALIZED_NAME_{{nameInSnakeCase}} = "{{baseName}}";
-  @SerializedName(SERIALIZED_NAME_{{nameInSnakeCase}})
-  {{/gson}}
-    {{^isNullable}}{{#required}}@org.jetbrains.annotations.NotNull{{/required}}{{^required}}@org.jetbrains.annotations.Nullable{{/required}}{{/isNullable}}{{#isNullable}}@org.jetbrains.annotations.Nullable{{/isNullable}}
+	 // required {{{required}}} nullable {{{isNullable}}} default {{{defaultValue}}}
+  {{^isNullable}}@org.jetbrains.annotations.NotNull{{/isNullable}}{{#isNullable}}@org.jetbrains.annotations.Nullable{{/isNullable}}
   private {{{datatypeWithEnum}}} {{name}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
 
   {{/vars}}
-  {{#parcelableModel}}
-  public {{classname}}() {
-  {{#parent}}
-    super();
-  {{/parent}}
-  {{#gson}}
-  {{#discriminator}}
-    this.{{{discriminatorName}}} = this.getClass().getSimpleName();
-  {{/discriminator}}
-  {{/gson}}
-  }
-  {{/parcelableModel}}
-  {{^parcelableModel}}
-  {{#gson}}
-  {{#discriminator}}
-  public {{classname}}() {
-    this.{{{discriminatorName}}} = this.getClass().getSimpleName();
-  }
-  {{/discriminator}}
-  {{/gson}}
-  {{/parcelableModel}}
   {{#vars}}
   {{^isReadOnly}}
-  public {{classname}} {{name}}({{^isNullable}}{{#required}}@org.jetbrains.annotations.NotNull{{/required}}{{^required}}@org.jetbrains.annotations.Nullable{{/required}}{{/isNullable}}{{#isNullable}}@org.jetbrains.annotations.Nullable{{/isNullable}} {{{datatypeWithEnum}}} {{name}}) {
+  public {{classname}} {{name}}(@org.jetbrains.annotations.{{^isNullable}}NotNull{{/isNullable}}{{#isNullable}}Nullable{{/isNullable}} {{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
     return this;
   }
   {{#isArray}}
 
-  public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
-    {{^required}}
+  public {{classname}} add{{nameInCamelCase}}Item(@org.jetbrains.annotations.{{^items.isNullable}}NotNull{{/items.isNullable}}{{#items.isNullable}}Nullable{{/items.isNullable}} {{{items.datatypeWithEnum}}} {{name}}Item) {
+    // if they are adding something to a non-nullable field and its null, lets make it non-nullable!
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}};
+      this.{{name}} = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}new java.util.LinkedList(){{/defaultValue}} ;
     }
-    {{/required}}
     this.{{name}}.add({{name}}Item);
     return this;
   }
   {{/isArray}}
   {{#isMap}}
 
-  public {{classname}} put{{nameInCamelCase}}Item({{vendorExtensions.x-property-ref}} key, {{{items.datatypeWithEnum}}} {{name}}Item) {
-    {{^required}}
+  public {{classname}} put{{nameInCamelCase}}Item({{vendorExtensions.x-property-ref}} key, @org.jetbrains.annotations.{{^items.isNullable}}NotNull{{/items.isNullable}}{{#items.isNullable}}Nullable{{/items.isNullable}} {{{items.datatypeWithEnum}}} {{name}}Item) {
+  // if they are adding something to a non-nullable field and its null, lets make it non-nullable!
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}};
+	this.{{name}} = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}new java.util.LinkedHashMap<>(){{/defaultValue}};
     }
-    {{/required}}
+
     this.{{name}}.put(key, {{name}}Item);
     return this;
   }
@@ -148,7 +91,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
   }
   {{^isReadOnly}}
 
-  public void {{setter}}({{^isNullable}}{{#required}}@org.jetbrains.annotations.NotNull{{/required}}{{^required}}@org.jetbrains.annotations.Nullable{{/required}}{{/isNullable}}{{#isNullable}}@org.jetbrains.annotations.Nullable{{/isNullable}} {{{datatypeWithEnum}}} {{name}}) {
+  public void {{setter}}({{^isNullable}}@org.jetbrains.annotations.NotNull{{/isNullable}}{{#isNullable}}@org.jetbrains.annotations.Nullable{{/isNullable}} {{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
   }
   {{/isReadOnly}}

@@ -2,6 +2,10 @@
 
 Does Jersey2 + Jersey3
 
+== 9.1
+
+- support OpenAPI 7.0.1
+
 == 8.8
 
 - support ebean annotation on individual enum type with `x-ebean-enum`

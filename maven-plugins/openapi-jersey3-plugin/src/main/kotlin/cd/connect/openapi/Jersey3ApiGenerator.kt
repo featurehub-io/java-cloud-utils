@@ -246,7 +246,7 @@ class Jersey3ApiGenerator : AbstractJavaJAXRSServerCodegen(), CodegenConfig {
 					// additionalProperties["delegateHolderPackage"].toString() + ".${className}Delegate." + StringUtils
 					// .camelize(op.operationId + "-holder", false)
 					op.vendorExtensions["x-class-delegator-holder"] =
-						delegateHolderPrefix + StringUtils.camelize(op.operationId + "-holder", CamelizeOption.LOWERCASE_FIRST_CHAR)
+						delegateHolderPrefix + StringUtils.camelize(op.operationId + "-holder", CamelizeOption.UPPERCASE_FIRST_CHAR)
 				}
 			}
 
@@ -267,7 +267,7 @@ class Jersey3ApiGenerator : AbstractJavaJAXRSServerCodegen(), CodegenConfig {
 				op.vendorExtensions["x-java-params"] = params
 				op.vendorExtensions["x-java-params-plus-types"] =
 					op.allParams.stream().filter { p: CodegenParameter -> !p.isQueryParam || p.required }
-						.map { p: CodegenParameter -> p.dataType + " " + p.paramName }.collect(Collectors.joining(","))
+						.map { p: CodegenParameter -> if (!p.isNullable) "@org.jetbrains.annotations.NotNull ${p.dataType} ${p.paramName}" else "@org.jetbrains.annotations.Nullable ${p.dataType} ${p.paramName}" }.collect(Collectors.joining(","))
 			}
 
 			// figuring out if we need a comma in the delegate is too complicated in mustache, so we figure it out here.

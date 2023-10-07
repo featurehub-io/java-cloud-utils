@@ -1,5 +1,6 @@
 package cd.connect.openapi;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import org.junit.Test;
 import org.openapitools.codegen.OpenAPIGenerator;
 
@@ -12,14 +13,15 @@ public class SampleRunner {
 
   @Test
   public void runGenerator() {
-    String location = getClass().getResource("/sample2.yaml").getFile();
-    OpenAPIGenerator.main(getArgs(location, false));
-
-    location = getClass().getResource("/upload.yaml").getFile();
-    OpenAPIGenerator.main(getArgs(location, true));
-
-    location = getClass().getResource("/nested-enum.yaml").getFile();
-    OpenAPIGenerator.main(getArgs(location, false));
+    OpenAPIGenerator.main(getArgs("/Users/richard/projects/fh/featurehub/backend/mr-api/final.yaml", false));
+//    String location = getClass().getResource("/sample2.yaml").getFile();
+//    OpenAPIGenerator.main(getArgs(location, false));
+//
+//    location = getClass().getResource("/upload.yaml").getFile();
+//    OpenAPIGenerator.main(getArgs(location, true));
+//
+//    location = getClass().getResource("/nested-enum.yaml").getFile();
+//    OpenAPIGenerator.main(getArgs(location, false));
   }
 
   private String[] getArgs(String location, boolean clientAndServer) {
@@ -32,6 +34,7 @@ public class SampleRunner {
         "--additional-properties", "x-no-copy",
 //      "--api-package", "api",
 //      "--model-package", "model",
+//		"--output", "");
         "--output", "target/" + getClass().getSimpleName());
 
     if (clientAndServer) {

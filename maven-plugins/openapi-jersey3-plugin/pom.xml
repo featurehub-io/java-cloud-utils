@@ -4,7 +4,7 @@
 	<artifactId>connect-openapi-jersey3</artifactId>
 	<packaging>jar</packaging>
 	<name>connect-openapi-jersey3</name>
-	<version>8.10-SNAPSHOT</version>
+	<version>9.1-RC1-SNAPSHOT</version>
 
 	<description>
 		jersey3 generator from openapi 3.x spec files. Changing to openapitools dependencies.
@@ -35,7 +35,7 @@
 	</scm>
 
 	<properties>
-		<openapi-codegen-version>6.6.0</openapi-codegen-version>
+		<openapi-codegen-version>7.0.1</openapi-codegen-version>
 		<kotlin.version>1.9.0</kotlin.version>
 	</properties>
 

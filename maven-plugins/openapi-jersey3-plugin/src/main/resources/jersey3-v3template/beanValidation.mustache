@@ -1,2 +1,2 @@
-{{^isNullable}}{{#required}}@org.jetbrains.annotations.NotNull @{{#jersey3}}jakarta{{/jersey3}}{{#jersey2}}javax{{/jersey2}}.validation.constraints.NotNull{{/required}}{{^required}}@org.jetbrains.annotations.Nullable{{/required}}{{/isNullable}}{{#isNullable}}@org.jetbrains.annotations.Nullable{{/isNullable}}
+{{^isNullable}}@org.jetbrains.annotations.NotNull @{{#jersey3}}jakarta{{/jersey3}}{{#jersey2}}javax{{/jersey2}}.validation.constraints.NotNull{{/isNullable}}{{#isNullable}}@org.jetbrains.annotations.Nullable{{/isNullable}}
 {{#isContainer}}{{^isPrimitiveType}}{{^isEnum}} @Valid {{/isEnum}}{{/isPrimitiveType}}{{/isContainer}}{{^isContainer}}{{^isPrimitiveType}} @Valid {{/isPrimitiveType}}{{/isContainer}}{{>beanValidationCore}}

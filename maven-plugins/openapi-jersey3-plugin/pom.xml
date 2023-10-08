@@ -4,7 +4,7 @@
 	<artifactId>connect-openapi-jersey3</artifactId>
 	<packaging>jar</packaging>
 	<name>connect-openapi-jersey3</name>
-	<version>9.1-RC1-SNAPSHOT</version>
+	<version>9.1-RC1</version>
 
 	<description>
 		jersey3 generator from openapi 3.x spec files. Changing to openapitools dependencies.
@@ -31,7 +31,7 @@
 		<connection>scm:git:git@github.com:featurehub-io/java-cloud-utils/connect-java.git</connection>
 		<developerConnection>scm:git:git@github.com:featurehub-io/java-cloud-utils/connect-java.git</developerConnection>
 		<url>git@github.com:featurehub-io/connect-java.git</url>
-		<tag>HEAD</tag>
+		<tag>connect-openapi-jersey3-9.1-RC1</tag>
 	</scm>
 
 	<properties>

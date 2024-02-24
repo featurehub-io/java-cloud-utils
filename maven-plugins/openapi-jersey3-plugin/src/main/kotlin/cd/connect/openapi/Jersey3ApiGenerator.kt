@@ -378,6 +378,14 @@ class Jersey3ApiGenerator : AbstractJavaJAXRSServerCodegen(), CodegenConfig {
 				importMap["import"] = i
 				importStatements.add(importMap)
 			}
+			info.models?.forEach { model ->
+				val implements = model.model.vendorExtensions["x-implements"]
+				if (implements != null) {
+					model.model.vendorExtensions["x-implements"] =
+						implements.toString().split(",").map { it.trim() }.filter { it.length > 0 }
+							.joinToString(",") { "${it}<${model.model.classname}>" }
+				}
+			}
 		}
 		return allModels
 	}

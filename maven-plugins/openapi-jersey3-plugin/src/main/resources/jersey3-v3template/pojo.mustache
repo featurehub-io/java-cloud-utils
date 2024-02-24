@@ -10,7 +10,7 @@
 {{#vendorExtensions.x-cloudevent-subject}}
 	@CloudEventSubject("{{vendorExtensions.x-cloudevent-subject}}")
 {{/vendorExtensions.x-cloudevent-subject}}
-public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorExtensions.x-cloudevent-type}} implements TaggedCloudEvent{{/vendorExtensions.x-cloudevent-type}} {
+public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorExtensions.x-cloudevent-type}} implements TaggedCloudEvent{{/vendorExtensions.x-cloudevent-type}}{{#vendorExtensions.x-implements}},{{{vendorExtensions.x-implements}}}{{/vendorExtensions.x-implements}}{{^vendorExtensions.x-cloudevent-type}}{{#vendorExtensions.x-implements}} implements {{{vendorExtensions.x-implements}}}{{/vendorExtensions.x-implements}}{{/vendorExtensions.x-cloudevent-type}} {
 {{#vendorExtensions.x-cloudevent-type}}
 	public static final String CLOUD_EVENT_TYPE = "{{vendorExtensions.x-cloudevent-type}}";
 {{/vendorExtensions.x-cloudevent-type}}

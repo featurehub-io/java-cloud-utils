@@ -2,6 +2,10 @@
 
 NOTE: Supports Jersey2 + Jersey3
 
+== 9.3
+- nameInCamelCase should have upper case 1st letter
+- fix full import path for `@Valid`
+
 == 9.2
 
 - support for `x-implements` - this allows you to specify the full path of one or more parameterised interfaces and have it included in  the `implements` clause. e.g. if you included `x-implements: io.featurehub.events.AdditionalInfo` to a model called `MyData` then it would add `implements io.featurehub.events.AdditionalInfo<MyData>` to your `MyData` model.

@@ -28,6 +28,11 @@ import javax.ws.rs.core.GenericType;
 {{#prometheus}}
 import cd.connect.jersey.prometheus.Prometheus;
 {{/prometheus}}
+{{#useBeanValidation}}
+	import jakarta.validation.Valid;
+	import jakarta.validation.constraints.*;
+{{/useBeanValidation}}
+
 
 {{#imports}}import {{import}};
 {{/imports}}

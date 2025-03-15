@@ -493,13 +493,18 @@ class Jersey3ApiGenerator : AbstractJavaJAXRSServerCodegen(), CodegenConfig {
 				p.getVendorExtensions()["x-basename"]?.let {
 					p.setBaseName(it.toString())
 				}
+
+				p.name?.let { name ->
+					p.nameInCamelCase = StringUtils.camelize(name, CamelizeOption.UPPERCASE_FIRST_CHAR)
+					p.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, p.nameInCamelCase)
+				}
 				// this overrides the name of the field name
 				p.getVendorExtensions()["x-longname"]?.let {
 					val name = it.toString()
 					p.setName(name)
 					p.getter = toGetter(name)
 					p.setter = toSetter(name)
-					p.nameInCamelCase = StringUtils.camelize(name, CamelizeOption.LOWERCASE_FIRST_CHAR)
+					p.nameInCamelCase = StringUtils.camelize(name, CamelizeOption.UPPERCASE_FIRST_CHAR)
 					p.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, p.nameInCamelCase)
 				}
 			}

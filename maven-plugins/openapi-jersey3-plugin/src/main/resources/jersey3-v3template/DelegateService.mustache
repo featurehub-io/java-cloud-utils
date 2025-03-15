@@ -18,6 +18,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 {{/jersey2}}
 
+{{#useBeanValidation}}
+	import jakarta.validation.Valid;
+	import jakarta.validation.constraints.*;
+{{/useBeanValidation}}
+
 {{#imports}}import {{import}};
 {{/imports}}
 

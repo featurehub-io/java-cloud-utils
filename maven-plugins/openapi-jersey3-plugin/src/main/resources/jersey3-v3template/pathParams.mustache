@@ -1,1 +1,1 @@
-{{#isPathParam}} @PathParam("{{baseName}}") @org.jetbrains.annotations.NotNull {{{dataType}}} {{paramName}}{{/isPathParam}}
+{{#isPathParam}} @PathParam("{{baseName}}") {{#useBeanValidation}}{{>beanValidationQueryParams}}{{/useBeanValidation}} {{{dataType}}} {{paramName}}{{/isPathParam}}

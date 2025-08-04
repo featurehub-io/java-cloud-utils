@@ -80,7 +80,10 @@ import cd.connect.jersey.prometheus.Prometheus;
     {{#prometheus}}@Prometheus(name = "{{operationId}}", help="{{#summary}}{{.}}{{/summary}}{{^summary}}{{notes}}{{/summary}}"){{/prometheus}}
     {{#vendorExtensions.statusCode}}@ReturnStatus(code={{vendorExtensions.statusCode}}){{/vendorExtensions.statusCode}}
     {{#vendorExtensions.x-java-annotations}}{{{.}}}{{/vendorExtensions.x-java-annotations}}
-    public @org.jetbrains.annotations.NotNull {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}Response {{/returnType}}{{operationId}}({{#allParams}}{{#isPathParam}}@org.jetbrains.annotations.NotNull {{/isPathParam}}{{^isPathParam}}{{#required}}@org.jetbrains.annotations.NotNull {{/required}}{{/isPathParam}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#authMethods}}{{#hasParams}}, {{/hasParams}}SecurityContext securityContext{{/authMethods}}) {
+    public {{#returnType}}@org.jetbrains.annotations.NotNull {{{returnType}}} {{/returnType}}{{^returnType}}Response {{/returnType}}{{operationId}}({{#allParams}}
+		{{^isBodyParam}}{{#useBeanValidation}}{{>beanValidationQueryParams}}{{/useBeanValidation}} {{{dataType}}} {{paramName}}{{/isBodyParam}}
+		{{>bodyParams}}{{^-last}}, {{/-last}}
+	{{/allParams}}{{#authMethods}}{{#hasParams}}, {{/hasParams}}SecurityContext securityContext{{/authMethods}}) {
   {{#vendorExtensions.x-has-delegator-holder}}
 	  {{#delegateHolderPackage}}
 		  final {{{vendorExtensions.x-class-delegator-holder}}} holder = new {{{vendorExtensions.x-class-delegator-holder}}}();

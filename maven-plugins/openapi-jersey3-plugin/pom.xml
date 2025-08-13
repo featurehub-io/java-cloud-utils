@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cd.connect.openapi</groupId>
 	<artifactId>connect-openapi-jersey3</artifactId>
@@ -29,7 +30,8 @@
 
 	<scm>
 		<connection>scm:git:git@github.com:featurehub-io/java-cloud-utils/connect-java.git</connection>
-		<developerConnection>scm:git:git@github.com:featurehub-io/java-cloud-utils/connect-java.git</developerConnection>
+		<developerConnection>scm:git:git@github.com:featurehub-io/java-cloud-utils/connect-java.git
+		</developerConnection>
 		<url>git@github.com:featurehub-io/connect-java.git</url>
 		<tag>HEAD</tag>
 	</scm>
@@ -42,6 +44,54 @@
 	<prerequisites>
 		<maven>3.8</maven>
 	</prerequisites>
+
+	<profiles>
+		<profile>
+			<!-- adtivate the sonatype profile when a release is being done -->
+			<id>sonatype</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-deploy-plugin</artifactId>
+						<configuration>
+							<skip>true</skip>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.sonatype.central</groupId>
+						<artifactId>central-publishing-maven-plugin</artifactId>
+						<version>0.8.0</version>
+						<extensions>true</extensions>
+						<configuration>
+							<publishingServerId>sonatype-staging</publishingServerId>
+							<autoPublish>true</autoPublish>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 	<dependencies>
 		<dependency>
@@ -86,18 +136,18 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-    <dependency>
-      <groupId>com.google.googlejavaformat</groupId>
-      <artifactId>google-java-format</artifactId>
-      <version>1.17.0</version>
-	    <!-- there is a bug in 1.17.0 -> guava dep which misses buildOrThrow -->
-	    <exclusions>
-		    <exclusion>
-			    <groupId>com.google.guava</groupId>
-			    <artifactId>guava</artifactId>
-		    </exclusion>
-	    </exclusions>
-    </dependency>
+		<dependency>
+			<groupId>com.google.googlejavaformat</groupId>
+			<artifactId>google-java-format</artifactId>
+			<version>1.17.0</version>
+			<!-- there is a bug in 1.17.0 -> guava dep which misses buildOrThrow -->
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
@@ -109,27 +159,67 @@
 			<version>${openapi-codegen-version}</version>
 			<scope>provided</scope>
 		</dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.2</version>
-      <scope>test</scope>
-    </dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13.2</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>io.repaint.maven</groupId>
-				<artifactId>tiles-maven-plugin</artifactId>
-				<version>2.23</version>
-				<extensions>true</extensions>
+				<groupId>net.stickycode.plugins</groupId>
+				<artifactId>bounds-maven-plugin</artifactId>
+				<version>2.7</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>1.0</version>
+				<!-- Invocation is defined by the release plugin goal set hence no executions -->
 				<configuration>
-					<filtering>false</filtering>
-					<tiles>
-						<tile>cd.connect.tiles:tile-release:[1.1,2)</tile>
-					</tiles>
+					<rules>
+						<requireMavenVersion>
+							<version>[3.3.9,)</version>
+						</requireMavenVersion>
+						<requireReleaseDeps>
+							<!--  Don't allow releases with snapshop deps or parents -->
+							<message>No Snapshots Allowed!</message>
+							<failWhenParentIsSnapshot>true</failWhenParentIsSnapshot>
+							<searchTransitive>true</searchTransitive>
+						</requireReleaseDeps>
+					</rules>
+					<fail>true</fail>
+
 				</configuration>
+			</plugin>
+			<plugin> <!-- unlike with subversion, this doesn't require overriding because releases are always done from local -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<mavenExecutorId>forked-path</mavenExecutorId>
+					<arguments>-Dconnect.release</arguments>
+					<preparationGoals>clean enforcer:enforce verify</preparationGoals>
+					<goals>bounds:update enforcer:enforce deploy</goals>
+					<tagBase>${project.groupId}/</tagBase>
+					<pushChanges>false</pushChanges>
+					<localCheckout>true</localCheckout>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>3.0.0</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.8.2</version>
 			</plugin>
 			<plugin>
 				<!-- if including source jars, use the no-fork goals
@@ -187,7 +277,9 @@
 					</execution>
 					<execution>
 						<id>test-compile</id>
-						<goals> <goal>test-compile</goal> </goals>
+						<goals>
+							<goal>test-compile</goal>
+						</goals>
 						<configuration>
 							<sourceDirs>
 								<sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
@@ -213,13 +305,13 @@
 					<execution>
 						<id>default-compile</id>
 						<phase>none</phase>
-						<configuration />
+						<configuration/>
 					</execution>
 					<!-- Replacing default-testCompile as it is treated specially by maven -->
 					<execution>
 						<id>default-testCompile</id>
 						<phase>none</phase>
-						<configuration />
+						<configuration/>
 					</execution>
 					<execution>
 						<id>java-compile</id>
@@ -227,7 +319,7 @@
 						<goals>
 							<goal>compile</goal>
 						</goals>
-						<configuration />
+						<configuration/>
 					</execution>
 					<execution>
 						<id>java-test-compile</id>
@@ -235,7 +327,7 @@
 						<goals>
 							<goal>testCompile</goal>
 						</goals>
-						<configuration />
+						<configuration/>
 					</execution>
 				</executions>
 			</plugin>

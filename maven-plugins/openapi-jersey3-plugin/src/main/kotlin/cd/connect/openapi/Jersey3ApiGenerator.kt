@@ -159,6 +159,15 @@ class Jersey3ApiGenerator : AbstractJavaJAXRSServerCodegen(), CodegenConfig {
 		}
 	}
 
+	private fun disableCamelToSnakeCaseEnumNames(): Boolean {
+		additionalProperties[ENUM_CAMEL_TO_SNAKE]?.let { it ->
+			val opt = it.toString().lowercase()
+			return opt == "off" || opt == "false"
+		}
+
+		return false
+	}
+
 	// if we are using delegate style but are actually delegating to another implementation
 	private fun usingDelegateHolderPackage(): Boolean {
 		return additionalProperties.containsKey("delegateHolderPackage")
@@ -508,14 +517,20 @@ class Jersey3ApiGenerator : AbstractJavaJAXRSServerCodegen(), CodegenConfig {
 					p.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, p.nameInCamelCase)
 				}
 			}
+//			if (m.allowableValues != null && m.allowableValues["enumVars"] != null && disableCamelToSnakeCaseEnumNames() ) {
+//				val enumVars = enumVars(m)
+//				enumVars.forEach { value ->
+//					if (value["value"])
+//					value["name"] = value["name"].toString().uppercase()
+//				}
+//			}
 
 			// there is a bug in 5.2.1 where we are getting duplicate enums
 			if (m.allowableValues != null && m.allowableValues["enumVars"] != null && m.vendorExtensions.containsKey("x-enum-longname") ) {
-				print("here")
 				// each item in enumVars looks like a map(name: X, value: Y, isString: true/false)
-				val enumVars = m.allowableValues["enumVars"] as List<MutableMap<String, Any>>?
+				val enumVars = enumVars(m)
 				val longNames = m.vendorExtensions["x-enum-longname"] as Map<String, String>
-				enumVars!!.forEach { value: MutableMap<String, Any> ->
+				enumVars.forEach { value: MutableMap<String, Any> ->
 					var name = value["name"].toString()
 					if (value["isString"] == true) {
 						name = name.lowercase()
@@ -527,6 +542,27 @@ class Jersey3ApiGenerator : AbstractJavaJAXRSServerCodegen(), CodegenConfig {
 			}
 		}
 		return newModels
+	}
+
+	fun enumVars(m: CodegenModel) : List<MutableMap<String,Any>> {
+		return m.allowableValues["enumVars"] as List<MutableMap<String, Any>>
+	}
+
+	override fun toEnumVarName(value: String?, datatype: String?): String? {
+		if (disableCamelToSnakeCaseEnumNames()) {
+			if (value.isNullOrEmpty()) {
+            	return "EMPTY";
+        	} else {
+				val name = value.uppercase()
+
+            	return if (this.reservedWords.contains(name)) this.escapeReservedWord(name) else name;
+        	}
+		}
+		return super.toEnumVarName(value, datatype)
+	}
+
+	override fun postProcessEnumVars(enumVars: List<Map<String?, Any?>?>?) {
+		super.postProcessEnumVars(enumVars)
 	}
 
 	override fun postProcessFile(file: File, fileType: String) {
@@ -642,6 +678,7 @@ class Jersey3ApiGenerator : AbstractJavaJAXRSServerCodegen(), CodegenConfig {
 		private const val SERVICE_NAME = "serviceName"
 		private const val SERVICE_PORT = "servicePort"
 		private const val SERVICE_DEFAULT_URL = "serviceDefaultUrl"
+		private const val ENUM_CAMEL_TO_SNAKE = "enum-camel-to-snake"
 
 		// if this is set, then we always use this as the base path if it exists in all the paths in the set of operations
 		private const val SERVICE_BASE = "serviceUrlBase"

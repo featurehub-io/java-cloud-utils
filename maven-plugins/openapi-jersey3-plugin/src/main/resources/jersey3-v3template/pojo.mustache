@@ -163,7 +163,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
    {{#vars}}
      {{#isArray}}
        {{^isModel}}
-    copy.{{setter}}(this.{{getter}}() == null ? null : new java.util.ArrayList<>(this.{{getter}}()));
+    copy.{{setter}}(this.{{getter}}() == null ? null : new java.util.{{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(this.{{getter}}()));
        {{/isModel}}
        {{#isModel}}
     copy.{{setter}}(this.{{getter}}() == null ? null : this.{{getter}}().stream().map(t -> t.copy()).collect(java.util.stream.Collectors.toList()));
